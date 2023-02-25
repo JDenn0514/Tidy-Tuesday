@@ -50,7 +50,7 @@ freq_num_color <- bob_ross %>%
 # plot the graph  
 freq_num_color %>% 
   ggplot(.,aes(y = num_colors, x = n, fill = num_colors)) +
-  geom_col(width = 0.8, color = "gray20") +
+  geom_col(width = 0.8, color = "gray20", fill = "#021E44") +
   # add labels outside the bars
   geom_label(aes(label = small), 
              fill = "white",color = "black", hjust = 0, nudge_x = 1, family = "P") +
