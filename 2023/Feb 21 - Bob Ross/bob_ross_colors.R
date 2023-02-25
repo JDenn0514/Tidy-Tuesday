@@ -1,4 +1,4 @@
-# Bob Ross colors
+# Number of Colors used in his paintings
 
 # Load packages -------------------------------------------------------------
 library(tidyverse)
@@ -48,9 +48,9 @@ freq_num_color <- bob_ross %>%
                           .default = NA)) 
   
 # plot the graph  
-freq_num_color %>% 
+num_color <- freq_num_color %>% 
   ggplot(.,aes(y = num_colors, x = n, fill = num_colors)) +
-  geom_col(width = 0.8, color = "gray20", fill = "#021E44") +
+  geom_col(width = 0.8, color = "gray20", fill = "") +
   # add labels outside the bars
   geom_label(aes(label = small), 
              fill = "white",color = "black", hjust = 0, nudge_x = 1, family = "P") +
@@ -79,22 +79,19 @@ freq_num_color %>%
         axis.text.x = element_blank()) +
   # using the BobRossColors package with the valley_waterfall colors
   scale_fill_bob_ross(painting = "valley_waterfall") +
+  scale_x_continuous(expand = expansion(add = c(0.01, 0.05))) +
   # adjust labels
   labs(y = "Number of colors in a painting",
        x = NULL,
        title = str_wrap("The Frequency of the Number of Colors Bob Ross Used in his Paintings", 37),
        subtitle = str_wrap('Bob Ross most frequently used twelve colors, which he used in 100 of his paintings. The fewest he used was one color, which he used in only one painting, the "Contemplative Lady."', 65),
        caption = "Visualization: @JDenn0514\nData: Jared Wilber's data on Bob Ross Paintings via @frankiethull {BobRossColors}")
+#print image
+print(num_color)
 
+# save image
+ggsave("num_color.png", num_color, height = 10, width = 8.25, units = "in", dpi = 400)
 
-# Frequency of colors
-
-
-
-
-
-
-
-
+# dev.size is set to height = 10 and width = 8.25
 
 

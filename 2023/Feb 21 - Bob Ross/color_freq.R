@@ -1,6 +1,28 @@
+# Load packages -------------------------------------------------------------
+library(tidyverse)
+library(janitor)
+library(stringr)
+library(BobRossColors)
+library(showtext)
+font_add_google("Alfa Slab One", "ASO", regular.wt = 400)
+font_add_google("Passion One", "P", regular.wt = 400)
+showtext_opts(dpi = 500) 
+showtext_auto(TRUE)
 
 
-# get the color hexes
+
+# Read in the data ------------------------------------
+bob_ross <- read_csv(
+  "https://raw.githubusercontent.com/jwilber/Bob_Ross_Paintings/master/data/bob_ross_paintings.csv",
+) 
+
+# The first column doesn't contain data that we need, so we can remove it
+
+bob_ross <- bob_ross %>% 
+  select(-1) %>% 
+  clean_names
+
+# get the color hexes ------------------------------------------------------
 color_hex <- print(unique_bob_ross_colors)
 
 
@@ -59,6 +81,7 @@ pal <- c("#FFFFFF",
          "#000000",  
          "#CD5C5C")
   
+# create plot
 color_rank <- color_sum %>% 
   ggplot(., aes(x = count, y = fct_reorder(name, count), fill = fct_reorder(name, -count))) +
   geom_col(width = 0.8, color = pal) +
@@ -81,7 +104,7 @@ color_rank <- color_sum %>%
         # change the plot background color to a very light gray/off-white
         plot.background = element_rect(fill = "gray90"),
         # adjust the plot margins
-        plot.margin = margin(5, 15, 15, 15),
+        plot.margin = margin(15, 15, 15, 15),
         # remove x,y grid lines
         panel.grid = element_blank(),
         # remove legend
@@ -96,11 +119,11 @@ color_rank <- color_sum %>%
        subtitle = str_wrap("Titanium white, the most frequently used color, was used in all but three of Bob Ross's paintings. On the other hand, Indian Red, used in only one painting, was the least frequently used.", 75),
        caption = "Visualization: @JDenn0514\nData: Jared Wilber's data on Bob Ross Paintings via @frankiethull {BobRossColors}")
 
+print(color_rank)
   
 ggsave("color_rank.png", color_rank, height = 10, width = 8.25, units = "in", dpi = 400)
 
 
-dev.size()
 
 
 
